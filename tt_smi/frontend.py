@@ -716,8 +716,34 @@ class TTSMI(App):
                                 justify="center",
                             )
                         )
+                    elif max_link_width == "N/A":
+                        rows.append(
+                            Text(
+                                f"x{val}" if val != "N/A" else "N/A",
+                                style=self.text_theme["attention"],
+                                justify="center",
+                            )
+                            + Text(
+                                " / N/A",
+                                style=self.text_theme["gray"],
+                                justify="center",
+                            )
+                        )
+                    elif val == "N/A":
+                        rows.append(
+                            Text(
+                                "N/A",
+                                style=self.text_theme["red_bold"],
+                                justify="center",
+                            )
+                            + Text(
+                                f" / x{max_link_width}",
+                                style=self.text_theme["yellow_bold"],
+                                justify="center",
+                            )
+                        )
                     else:
-                        if val < max_link_width:
+                        if int(val) < int(max_link_width):
                             rows.append(
                                 Text(
                                     f"x{val}",
@@ -863,7 +889,7 @@ class TTSMI(App):
         """An [action](/guide/actions) to quit the app as soon as possible."""
         exit_message = Text(f"Exiting TT-SMI.", style="yellow")
         if self.snapshot:
-            log_name = self.backend.save_logs(self.result_filename)
+            log_name = self.backend.save_logs_to_file(self.result_filename)
             exit_message = exit_message + Text(
                 f"\nSaved tt-smi log to: {log_name}", style="purple"
             )
